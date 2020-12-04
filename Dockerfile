@@ -86,9 +86,8 @@ RUN set -x \
     && apt-get install --no-install-recommends --no-install-suggests -y \
                         $nginxPackages \
                         gettext-base \
-                        curl
+                        curl \
 # install custom modules
-RUN set -x \
     && cd /build \
     && apt-get install cabal-install ghc -y \
     && cabal v1-update \
