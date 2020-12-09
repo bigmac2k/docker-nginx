@@ -12,6 +12,7 @@ ENV NJS_VERSION     0.4.4
 ENV PKG_RELEASE     1~focal
 
 COPY healthcheck_nginx_upstreams-patch-1.zip /build/
+COPY rules.patch /build/
 RUN set -x \
 # create nginx user/group first, to be consistent throughout docker variants
     && addgroup --system --gid 101 nginx \
@@ -61,6 +62,7 @@ RUN set -x \
       && apt-get source $nginxPackage \
       && cd "nginx-${NGINX_VERSION}" \
       && patch -p1 < /build/healthcheck_nginx_upstreams-patch-1/check_1.16.1+.patch \
+      && patch -p1 < /build/rules.patch \
       && dpkg-buildpackage -b \
       && cd "$tempDir" \
       && DEB_BUILD_OPTIONS="nocheck parallel=$(nproc)" \
